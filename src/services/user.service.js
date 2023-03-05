@@ -5,7 +5,9 @@ const secret = process.env.JWT_SECRET;
 const { User } = require('../models');
 
 async function getUsers() {
-  const user = await User.findAll();
+  const user = await User.findAll({
+    attributes: ['id', 'displayName', 'email', 'image'],
+  });
   return user;
 }
 

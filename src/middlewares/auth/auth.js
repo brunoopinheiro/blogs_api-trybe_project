@@ -8,8 +8,7 @@ module.exports = (req, res, next) => {
 
   if (!token) {
     const e = new Error('Token not found');
-    e.statusCode = 401;
-    return next(e);
+    return res.status(401).json({ message: e.message });
   }
 
   try {
@@ -20,6 +19,7 @@ module.exports = (req, res, next) => {
     return next();
   } catch (error) {
     error.statusCode = 401;
-    return next(error);
+    error.message = 'Expired or invalid token';
+    return res.status(error.statusCode).json({ message: error.message });
   }
 };
