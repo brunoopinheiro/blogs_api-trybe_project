@@ -12,7 +12,10 @@ async function getUsers() {
 }
 
 async function getByUserId(userId) {
-  const user = await User.findByPk(userId);
+  const user = await User.findByPk(
+    userId,
+    { attributes: ['id', 'displayName', 'email', 'image'] },
+  );
   return user;
 }
 
