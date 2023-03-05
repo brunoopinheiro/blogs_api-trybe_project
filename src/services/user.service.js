@@ -4,11 +4,6 @@ const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
 const { User } = require('../models');
 
-async function createUser({ displayName, email, password, image }) {
-  const newUser = await User.create({ displayName, email, password, image });
-  return newUser;
-}
-
 async function getUsers() {
   const user = await User.findAll();
   return user;
@@ -22,6 +17,18 @@ async function getByUserId(userId) {
 async function getByUserEmail(email) {
   const user = await User.findOne({ where: { email } });
   return user;
+}
+
+async function createUser({ displayName, email, password, image }) {
+  const isNotUnique = await getByUserEmail(email);
+  if (isNotUnique) {
+    return {
+      error: { status: 409, message: 'User already registered' },
+    };
+  }
+
+  const newUser = await User.create({ displayName, email, password, image });
+  return newUser;
 }
 
 async function login(email, password) {
