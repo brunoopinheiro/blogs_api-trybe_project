@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   const BlogPost = sequelize.define(
     'BlogPost',
     {
-      id: { type: DataTypes.INTEGER, primaryKey: true },
+      id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       published: DataTypes.DATE,
@@ -16,7 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'blog_posts',
-      timestamps: false,
+      timestamps: true,
+      createdAt: 'published',
+      updatedAt: 'updated',
       underscored: true,
     },
   );

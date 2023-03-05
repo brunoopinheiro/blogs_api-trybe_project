@@ -51,7 +51,7 @@ async function login(email, password) {
     expiresIn: '7d',
     algorithm: 'HS256',
   };
-  const payload = { displayName: user.displayName, email };
+  const payload = { displayName: user.displayName, email, id: user.id };
   const token = jwt.sign(payload, secret, jwtConfig);
 
   return { token };
