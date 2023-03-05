@@ -25,6 +25,16 @@ const createPost = async (req, res) => {
   }
 };
 
+const getPosts = async (_req, res) => {
+  try {
+    const posts = await postService.getPosts();
+    return res.status(200).json(posts);
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
+  }
+};
+
 module.exports = {
   createPost,
+  getPosts,
 };
