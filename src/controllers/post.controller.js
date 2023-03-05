@@ -1,5 +1,5 @@
 const { postService, categoryService } = require('../services');
-const { validatePostBody } = require('./utils/validatePostBody');
+const { validatePostBody, validateUpdatePostBody } = require('./utils/validatePostBody');
 
 const createPost = async (req, res) => {
   try {
@@ -49,8 +49,31 @@ const getPostById = async (req, res) => {
   }
 };
 
+const updatePostById = async (req, res) => {
+  try {
+    const { error: validationError } = validateUpdatePostBody(req.body);
+    if (validationError) {
+      return res.status(400).send({ message: 'Some required fields are missing' });
+    }
+
+    const { id: postId } = req.params;
+    const { id: userId } = req.user;
+
+    const oldPost = await postService.getPostById(postId);
+    if (oldPost.userId !== userId) {
+      return res.status(401).send({ message: 'Unauthorized user' });
+    }
+
+    const updatedPost = await postService.updatePost(postId, req.body);
+    return res.status(200).json(updatedPost);
+  } catch (e) {
+    return res.status(500).json({ message: e.message });
+  }
+};
+
 module.exports = {
   createPost,
   getPosts,
   getPostById,
+  updatePostById,
 };

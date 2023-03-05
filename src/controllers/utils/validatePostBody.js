@@ -6,4 +6,9 @@ const validatePostBody = (body) => Joi.object({
   categoryIds: Joi.array().required(),
 }).validate(body);
 
-module.exports = { validatePostBody };
+const validateUpdatePostBody = (body) => Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+}).validate(body);
+
+module.exports = { validatePostBody, validateUpdatePostBody };
