@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { loginRouter, userRouter } = require('./routers');
+const { loginRouter, userRouter, categoryRouter } = require('./routers');
 
 const app = express();
 
@@ -13,6 +13,7 @@ app.use(express.json());
 
 app.use('/login', loginRouter);
 app.use('/user', userRouter);
+app.use('/categories', categoryRouter);
 
 app.use((error, _req, res, _next) => {
   if (error.status) return res.status(error.status).json({ message: error.message });
