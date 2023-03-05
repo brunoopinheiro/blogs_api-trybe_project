@@ -33,7 +33,28 @@ async function getPosts() {
   return posts;
 }
 
+async function getPostById(postId) {
+  const post = await BlogPost.findByPk(
+    postId,
+    { include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: ['id', 'displayName', 'email', 'image'],
+      },
+      {
+        model: Category,
+        as: 'categories',
+        attributes: ['id', 'name'],
+      },
+    ] },
+  );
+
+  return post;
+}
+
 module.exports = {
   createPost,
   getPosts,
+  getPostById,
 };
