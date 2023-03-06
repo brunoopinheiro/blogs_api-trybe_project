@@ -57,10 +57,16 @@ async function login(email, password) {
   return { token };
 }
 
+async function deleteUser(userId) {
+  const deleteResponse = await User.destroy({ where: { id: userId } });
+  return deleteResponse;
+}
+
 module.exports = {
   createUser,
   getUsers,
   getByUserId,
   getByUserEmail,
   login,
+  deleteUser,
 };
